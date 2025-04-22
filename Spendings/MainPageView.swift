@@ -19,25 +19,39 @@ struct MainPageView: View {
             VStack{
                 Text("Monthly Spending")
                     .font(.title)
-                if #available(iOS 16.0, *){
-                    Chart(Expenses.currentMonthExpenses){ expense in
-                        BarMark(
-                            x: .value("Category", expense.category),
-                            y: .value("Amount", expense.amount)
-                        )
+                
+                Chart(Expenses.groupedExpenses, id: \.0){ category, total in
+                    BarMark(
+                        x: .value("Category", category),
+                        y: .value("Amount", total)
+                    )
+                    .foregroundStyle(by: .value("Category", category))
+                    .annotation(position: .top) {
+                        Text(total, format: .currency(code: "USD"))
+                            .font(.caption)
                     }
-                    .frame(height: 200)
-                    .padding()
                 }
+                .frame(height: 150)
+                .padding()
+                
                 
                 
                 List(Expenses.currentMonthExpenses) { expense in
-                    VStack(alignment: .leading) {
-                        Text(expense.title)
-                            .font(.headline)
-                        Text("\(expense.amount, specifier: "%.2f") \(expense.category)")
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4){
+                            Text(expense.title)
+                                .font(.headline)
+                        }
+
+                        Text("$\(expense.amount, specifier: "%.2f")")
+                            .font(.subheadline)
+                        
+                        Spacer()
+                        
+                        Text(expense.category)
                             .font(.subheadline)
                     }
+                    .padding(.vertical, 4)
                 }
                 
                 HStack{
@@ -60,7 +74,13 @@ struct MainPageView: View {
             .sheet(isPresented: $showingAddCategoryPopUp){
                 AddCategoryView(Expenses: Expenses)
             }
-            .navigationTitle("Spendings")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("💸 Spendings 💸")
+                        .font(.title2.bold())
+                        .foregroundColor(.accentColor)
+                }
+            }
             
         }
     }

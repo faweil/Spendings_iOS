@@ -13,10 +13,17 @@ struct AddCategoryView: View{
 
     @State private var categoryName = ""
     
+    // if User did not input valid Category
+    @State var errorMessage = ""
+    @State var showMessage = false
+    
     var body: some View{
         NavigationView{
             Form{
                 TextField("Category Name: ", text: $categoryName)
+            }
+            .onChange(of: categoryName){ _ in
+                showMessage = false
             }
             .navigationTitle("Add new Category")
             .toolbar{
@@ -26,7 +33,8 @@ struct AddCategoryView: View{
                             Expenses.addNewCategory(name: categoryName)
                             dismiss()
                         }else{
-                            print("User did not input a new category name")
+                            errorMessage = "User did not input a Category!"
+                            showMessage = true
                         }
                     }
                 }
@@ -37,6 +45,10 @@ struct AddCategoryView: View{
                     }
                 }
             }
+        }
+        if showMessage{
+            Text(errorMessage)
+                .foregroundColor(.red)
         }
     }
 }

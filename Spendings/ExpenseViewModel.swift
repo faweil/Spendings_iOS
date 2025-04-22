@@ -18,6 +18,14 @@ class ExpenseViewModel: ObservableObject {
         ExpenseCategory(name: "Hobbies")
     ]
     
+    // group the expenses, calculate total amount
+    var groupedExpenses: [(String, Double)] {
+        Dictionary(grouping: self.currentMonthExpenses, by: { $0.category })
+            .map{ (category, items) in
+                (category, items.reduce(0) { $0 + $1.amount })
+            }
+    }
+    
     // return only expenses of current month (as an array)
     var currentMonthExpenses: [Expense] {
         let calender = Calendar.current

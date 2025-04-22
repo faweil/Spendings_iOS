@@ -17,12 +17,16 @@ struct AddExpenseView: View{
     @State private var title = ""
     @State private var amount = ""
     @State private var selectedCategory = ""
+    
+    // if User did not input valid Expense
+    @State var errorMessage = ""
+    @State var showMessage = false
 
     var body: some View{
         NavigationView{
             Form{
                 TextField("Title: ", text: $title)
-                TextField("Amount: ", text: $amount)
+                TextField("Amount in $: ", text: $amount)
                     .keyboardType(.decimalPad)
                 
                 Picker("Category: ", selection: $selectedCategory){
@@ -30,7 +34,9 @@ struct AddExpenseView: View{
                         Text(category.name).tag(category.name)
                     }
                 }
-                
+            }
+            .onChange(of: "\(title)-\(amount)-\(selectedCategory)"){ _ in
+                showMessage = false
             }
             .navigationTitle("Add new Expense")
             .toolbar{
@@ -40,7 +46,8 @@ struct AddExpenseView: View{
                             Expenses.addNewExpense(title: title, amount: unwrappedAmount, category: selectedCategory)
                             dismiss()
                         }else{
-                            print("User did not input valid Expense!")
+                            errorMessage = "User did not input valid Expense!"
+                            showMessage = true
                         }
                     }
                 }
@@ -51,6 +58,11 @@ struct AddExpenseView: View{
                     }
                 }
             }
+        }
+        
+        if showMessage{
+            Text(errorMessage)
+                .foregroundColor(.red)
         }
     }
 }
