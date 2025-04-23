@@ -26,6 +26,11 @@ class ExpenseViewModel: ObservableObject {
             }
     }
     
+    //total amount of spendings this month
+    var totalExpense: Double {
+        self.currentMonthExpenses.reduce(0) { $0 + $1.amount }
+    }
+    
     // return only expenses of current month (as an array)
     var currentMonthExpenses: [Expense] {
         let calender = Calendar.current

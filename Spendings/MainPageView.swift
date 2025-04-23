@@ -33,25 +33,43 @@ struct MainPageView: View {
                 }
                 .frame(height: 150)
                 .padding()
+                                
                 
-                
-                
-                List(Expenses.currentMonthExpenses) { expense in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4){
-                            Text(expense.title)
-                                .font(.headline)
-                        }
-
-                        Text("$\(expense.amount, specifier: "%.2f")")
+                if Expenses.currentMonthExpenses.isEmpty {
+                    VStack {
+                        Text("No recorded spendings yet.")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                            .padding(.bottom, 2)
+                        Text("Tap below to add your first expense!")
                             .font(.subheadline)
-                        
+                            .foregroundColor(.secondary)
                         Spacer()
-                        
-                        Text(expense.category)
-                            .font(.subheadline)
                     }
-                    .padding(.vertical, 4)
+                    .frame(maxWidth: .infinity)
+                }else{
+                    Text("Total amount this month: $\(Expenses.totalExpense, specifier: "%.2f")")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .padding(.top, 4)
+                    
+                    List(Expenses.currentMonthExpenses) { expense in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4){
+                                Text(expense.title)
+                                    .font(.headline)
+                            }
+                            
+                            Text("$\(expense.amount, specifier: "%.2f")")
+                                .font(.subheadline)
+                            
+                            Spacer()
+                            
+                            Text(expense.category)
+                                .font(.subheadline)
+                        }
+                        .padding(.vertical, 4)
+                    }
                 }
                 
                 HStack{
