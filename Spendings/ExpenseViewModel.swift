@@ -18,6 +18,63 @@ class ExpenseViewModel: ObservableObject {
         ExpenseCategory(name: "Hobbies")
     ]
     
+    private let expenseFileName = "expenses.json"
+    private let categoryFileName = "category.json"
+    
+    // load all expenses from JSON
+    init(){
+        loadExpense()
+        loadCategory()
+    }
+    
+    func loadCategory(){
+        let path = getDirectory().appendingPathComponent(categoryFileName)
+        print("Thats the URL: \(path)")
+        do {
+            let data = try Data(contentsOf: path)
+            categories = try JSONDecoder().decode([ExpenseCategory].self, from: data)
+        } catch{
+            print("no saved categories, or failed to load")
+        }
+    }
+    
+    func loadExpense(){
+        let path = getDirectory().appendingPathComponent(expenseFileName)
+        print("Thats the URL: \(path)")
+        do {
+            let data = try Data(contentsOf: path)
+            expenses = try JSONDecoder().decode([Expense].self, from: data)
+        } catch{
+            print("no saved expenses, or failed to load")
+        }
+    }
+    
+    func saveExpense(){
+        let path = getDirectory().appendingPathComponent(expenseFileName)
+        do {
+            let data = try JSONEncoder().encode(expenses)
+            try data.write(to: path)
+        } catch{
+            print("error saving expenses")
+        }
+    }
+    
+    func saveCategory(){
+        let path = getDirectory().appendingPathComponent(categoryFileName)
+        do {
+            let data = try JSONEncoder().encode(categories)
+            try data.write(to: path)
+        } catch{
+            print("error saving categories")
+        }
+    }
+    
+    // returns path from user's Documents directory
+    // .documentDirectory = here store files which user might access
+    func getDirectory() -> URL{
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
     // group the expenses, calculate total amount
     var groupedExpenses: [(String, Double)] {
         Dictionary(grouping: self.currentMonthExpenses, by: { $0.category })
@@ -43,11 +100,13 @@ class ExpenseViewModel: ObservableObject {
     func addNewExpense(title: String, amount: Double, category: String){
         let newExpense = Expense(title: title, amount: amount, category: category, date: Date())
         expenses.append(newExpense)
+        saveExpense()
     }
     
     func addNewCategory(name: String){
         let newCategory = ExpenseCategory(name: name)
         categories.append(newCategory)
+        saveCategory()
     }
     
 }
