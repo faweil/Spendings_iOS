@@ -35,6 +35,18 @@ struct MainPageViewWithUser: View {
     @State private var showingAddExpensePopUp = false
     @State private var showingAddCategoryPopUp = false
     
+    private func deleteExpense(index: IndexSet){
+        // match ID from deleted Expense in UI with real one from List (then can delete its expense)
+        let delete_ID = index.map{ Expenses.currentMonthExpenses[$0].id }
+        
+        if !delete_ID.isEmpty{
+            Expenses.expenses.removeAll{ delete_ID.contains($0.id) }
+            Expenses.saveExpense()
+        }
+        
+
+    }
+    
     var body: some View{
         NavigationView{
             VStack{
@@ -74,22 +86,25 @@ struct MainPageViewWithUser: View {
                         .foregroundColor(.secondary)
                         .padding(.top, 4)
                     
-                    List(Expenses.currentMonthExpenses) { expense in
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4){
-                                Text(expense.title)
-                                    .font(.headline)
+                    List{
+                        ForEach(Expenses.currentMonthExpenses) { expense in
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4){
+                                    Text(expense.title)
+                                        .font(.headline)
+                                }
+                                
+                                Text("$\(expense.amount, specifier: "%.2f")")
+                                    .font(.subheadline)
+                                
+                                Spacer()
+                                
+                                Text(expense.category)
+                                    .font(.subheadline)
                             }
-                            
-                            Text("$\(expense.amount, specifier: "%.2f")")
-                                .font(.subheadline)
-                            
-                            Spacer()
-                            
-                            Text(expense.category)
-                                .font(.subheadline)
+                            .padding(.vertical, 4)
                         }
-                        .padding(.vertical, 4)
+                        .onDelete(perform: deleteExpense)
                     }
                 }
                 
