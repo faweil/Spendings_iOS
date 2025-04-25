@@ -14,9 +14,9 @@ struct MainPageView: View {
     @StateObject private var Expenses: ExpenseViewModel
 
     init() {
-        // Use a temporary dummy ViewModel to satisfy SwiftUI’s need for a default value.
-        let dummyVM = ExpenseViewModel(userID: UUID())
-        _Expenses = StateObject(wrappedValue: dummyVM)
+        // will never display it, but swift wants a default value for @StateObject
+        let defaultView = ExpenseViewModel(userID: UUID())
+        _Expenses = StateObject(wrappedValue: defaultView)
     }
     
     var body: some View{
@@ -24,7 +24,6 @@ struct MainPageView: View {
             MainPageViewWithUser(Expenses: ExpenseViewModel(userID: user.id))
         }else{
             EmptyView()
-            Text("No user yet")
         }
     }
 }
@@ -132,3 +131,8 @@ struct MainPageViewWithUser: View {
     }
 }
 
+struct MainPageViewWithUser_Previews: PreviewProvider {
+    static var previews: some View {
+        MainPageViewWithUser(Expenses: ExpenseViewModel(userID: UUID()))
+    }
+}
