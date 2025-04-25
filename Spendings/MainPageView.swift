@@ -10,7 +10,29 @@ import SwiftUI
 import Charts
 
 struct MainPageView: View {
-    @StateObject private var Expenses = ExpenseViewModel()
+    @EnvironmentObject var manageUser: ManageUser
+    @StateObject private var Expenses: ExpenseViewModel
+
+    init() {
+        // Use a temporary dummy ViewModel to satisfy SwiftUI’s need for a default value.
+        let dummyVM = ExpenseViewModel(userID: UUID())
+        _Expenses = StateObject(wrappedValue: dummyVM)
+    }
+    
+    var body: some View{
+        if let user = manageUser.currentUser{
+            MainPageViewWithUser(Expenses: ExpenseViewModel(userID: user.id))
+        }else{
+            EmptyView()
+            Text("No user yet")
+        }
+    }
+}
+
+
+struct MainPageViewWithUser: View {
+    @ObservedObject var Expenses: ExpenseViewModel
+    @EnvironmentObject var manageUser: ManageUser
     @State private var showingAddExpensePopUp = false
     @State private var showingAddCategoryPopUp = false
     
@@ -98,15 +120,15 @@ struct MainPageView: View {
                         .font(.title2.bold())
                         .foregroundColor(.accentColor)
                 }
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button("Log out"){
+                        manageUser.logOut()
+                    }
+                    .foregroundColor(.red)
+                }
             }
             
         }
     }
 }
 
-
-struct MainPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainPageView()
-    }
-}

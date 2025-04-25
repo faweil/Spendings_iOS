@@ -18,11 +18,19 @@ class ExpenseViewModel: ObservableObject {
         ExpenseCategory(name: "Hobbies")
     ]
     
-    private let expenseFileName = "expenses.json"
-    private let categoryFileName = "category.json"
+    private var expenseFileName: String{
+        "expenses_\(userID).json"
+    }
+    private var categoryFileName: String{
+        "category_\(userID).json"
+    }
+    
+    // tracking user with their expenses
+    private var userID: UUID
     
     // load all expenses from JSON
-    init(){
+    init(userID: UUID){
+        self.userID = userID
         loadExpense()
         loadCategory()
     }
