@@ -19,6 +19,7 @@
 		0599D1B02DB471B9003EC3D7 /* MainPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0599D1AF2DB471B9003EC3D7 /* MainPageView.swift */; };
 		0599D1B22DB59708003EC3D7 /* AddExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0599D1B12DB59708003EC3D7 /* AddExpenseView.swift */; };
 		0599D1B42DB59776003EC3D7 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0599D1B32DB59776003EC3D7 /* AddCategoryView.swift */; };
+		05D7ADC82DBEA60500C87B0A /* PreviousMonthsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D7ADC72DBEA60500C87B0A /* PreviousMonthsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		0599D1AF2DB471B9003EC3D7 /* MainPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageView.swift; sourceTree = "<group>"; };
 		0599D1B12DB59708003EC3D7 /* AddExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseView.swift; sourceTree = "<group>"; };
 		0599D1B32DB59776003EC3D7 /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
+		05D7ADC72DBEA60500C87B0A /* PreviousMonthsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousMonthsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				0599D1B32DB59776003EC3D7 /* AddCategoryView.swift */,
 				0580D7862DBAB85200BB7378 /* ManageUser.swift */,
 				0580D7882DBAC53000BB7378 /* LoginRegisterView.swift */,
+				05D7ADC72DBEA60500C87B0A /* PreviousMonthsView.swift */,
 			);
 			path = Spendings;
 			sourceTree = "<group>";
@@ -167,6 +170,7 @@
 				0599D19C2DB4121A003EC3D7 /* SpendingsApp.swift in Sources */,
 				0580D7852DBAB6E900BB7378 /* User.swift in Sources */,
 				0599D1B22DB59708003EC3D7 /* AddExpenseView.swift in Sources */,
+				05D7ADC82DBEA60500C87B0A /* PreviousMonthsView.swift in Sources */,
 				0580D7872DBAB85200BB7378 /* ManageUser.swift in Sources */,
 				0599D1AE2DB46981003EC3D7 /* ExpenseViewModel.swift in Sources */,
 				0599D1AC2DB4149C003EC3D7 /* Category.swift in Sources */,

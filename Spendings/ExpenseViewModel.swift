@@ -117,4 +117,12 @@ class ExpenseViewModel: ObservableObject {
         saveCategory()
     }
     
+    func filterExpensesByMonth(month: Int, year: Int) -> [Expense]{
+        let calender = Calendar.current
+        return expenses.filter{
+            let dateComponentsInExpenses = calender.dateComponents([.month, .year], from: $0.date)
+            return dateComponentsInExpenses.month == month && dateComponentsInExpenses.year == year
+        }
+    }
+    
 }

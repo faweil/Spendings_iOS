@@ -32,8 +32,11 @@ struct MainPageView: View {
 struct MainPageViewWithUser: View {
     @ObservedObject var Expenses: ExpenseViewModel
     @EnvironmentObject var manageUser: ManageUser
+    
     @State private var showingAddExpensePopUp = false
     @State private var showingAddCategoryPopUp = false
+    
+    @State private var showPreviousMonths = false
     
     private func deleteExpense(index: IndexSet){
         // match ID from deleted Expense in UI with real one from List (then can delete its expense)
@@ -119,9 +122,16 @@ struct MainPageViewWithUser: View {
                     }
                     .padding()
                 }
+                Button("View previous Months spendings"){
+                    showPreviousMonths = true
+                }
+                // pop up window for previous months
+                .sheet(isPresented: $showPreviousMonths){
+                    PreviousMonthsView(Expenses: Expenses)
+                }
             }
             
-            // pop up windows
+            // pop up windows for category and expense
             .sheet(isPresented: $showingAddExpensePopUp){
                 AddExpenseView(Expenses: Expenses)
             }
