@@ -55,7 +55,7 @@ struct PreviousMonthsView: View {
                 
                 
                 if filteredExpenses.isEmpty{
-                    Text("No expenses found for the selected month!")
+                    Text("No spendings found for the selected month!")
                         .foregroundColor(.secondary)
                         .padding()
                 } else{
@@ -80,7 +80,7 @@ struct PreviousMonthsView: View {
                 Spacer()
     
             }
-            .navigationTitle("Past Expenses")
+            .navigationTitle("Past Spendings")
             .toolbar{
                 ToolbarItem(placement: .cancellationAction){
                     Button("close"){
